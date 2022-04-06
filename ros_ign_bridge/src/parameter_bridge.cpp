@@ -18,13 +18,12 @@
 #include <string>
 #include <vector>
 
-// include Ignition Transport
 #include <ignition/transport/Node.hh>
-
-// include ROS 2
 #include <rclcpp/rclcpp.hpp>
 
 #include "bridge.hpp"
+#include "bridge_ign_to_ros.hpp"
+#include "bridge_ros_to_ign.hpp"
 
 // Direction of bridge.
 enum Direction
@@ -91,18 +90,21 @@ int main(int argc, char * argv[])
   // ROS 2 node
   auto ros_node = std::make_shared<rclcpp::Node>("ros_ign_bridge");
 
+  ros_node->declare_parameter<bool>("lazy", false);
+
+  bool lazy_subscription;
+  ros_node->get_parameter("lazy", lazy_subscription);
+
   // Ignition node
   auto ign_node = std::make_shared<ignition::transport::Node>();
 
-  std::vector<ros_ign_bridge::BridgeHandles> bidirectional_handles;
-  std::vector<ros_ign_bridge::BridgeIgnToRosHandles> ign_to_ros_handles;
-  std::vector<ros_ign_bridge::BridgeRosToIgnHandles> ros_to_ign_handles;
+  // Filter arguments (i.e. remove ros args) then parse all the remaining ones
+  // TODO(ivanpauno): Improve the parsing code later, it's hard to read ...
+  const std::string delim = "@";
+
+  std::list<ros_ign_bridge::BridgePtr> handles;
   std::vector<ros_ign_bridge::BridgeIgnServicesToRosHandles> service_bridge_handles;
 
-  // Filter arguments (i.e. remove ros args) then parse all the remaining ones
-  const std::string delim = "@";
-  const size_t queue_size = 10;
-  // TODO(ivanpauno): Improve the parsing code later, it's hard to read ...
   for (auto & arg : filteredArgs) {
     auto delimPos = arg.find(delim);
     if (delimPos == std::string::npos || delimPos == 0) {
@@ -174,37 +176,62 @@ int main(int argc, char * argv[])
       return -1;
     }
     std::string ign_type_name = arg;
+
     try {
-      switch (direction) {
-        default:
-        case BIDIRECTIONAL:
-          bidirectional_handles.push_back(
-            ros_ign_bridge::create_bidirectional_bridge(
-              ros_node, ign_node,
-              ros_type_name, ign_type_name,
-              topic_name, queue_size));
-          break;
-        case FROM_IGN_TO_ROS:
-          ign_to_ros_handles.push_back(
-            ros_ign_bridge::create_bridge_from_ign_to_ros(
-              ign_node, ros_node,
-              ign_type_name, topic_name, queue_size,
-              ros_type_name, topic_name, queue_size));
-          break;
-        case FROM_ROS_TO_IGN:
-          ros_to_ign_handles.push_back(
-            ros_ign_bridge::create_bridge_from_ros_to_ign(
-              ros_node, ign_node,
-              ros_type_name, topic_name, queue_size,
-              ign_type_name, topic_name, queue_size));
-          break;
+      if (direction == FROM_IGN_TO_ROS || direction == BIDIRECTIONAL) {
+        RCLCPP_INFO(
+          ros_node->get_logger(),
+          "Creating IGN->ROS Bridge: [%s] (%s -> %s) (Lazy %d): ",
+          topic_name.c_str(), ign_type_name.c_str(), ros_type_name.c_str(),
+          lazy_subscription);
+        handles.push_back(
+          std::make_unique<ros_ign_bridge::BridgeIgnToRos>(
+            ros_node, ign_node,
+            ros_type_name, topic_name,
+            ign_type_name, topic_name,
+            ros_ign_bridge::Bridge::kDefaultSubscriberQueue,
+            ros_ign_bridge::Bridge::kDefaultPublisherQueue,
+            lazy_subscription
+        ));
+      }
+      if (direction == FROM_ROS_TO_IGN || direction == BIDIRECTIONAL) {
+        RCLCPP_INFO(
+          ros_node->get_logger(),
+          "Creating ROS->IGN Bridge: [%s] (%s -> %s) (Lazy %d): ",
+          topic_name.c_str(), ros_type_name.c_str(), ign_type_name.c_str(),
+          lazy_subscription);
+        handles.push_back(
+          std::make_unique<ros_ign_bridge::BridgeRosToIgn>(
+            ros_node, ign_node,
+            ros_type_name, topic_name,
+            ign_type_name, topic_name,
+            ros_ign_bridge::Bridge::kDefaultSubscriberQueue,
+            ros_ign_bridge::Bridge::kDefaultPublisherQueue,
+            lazy_subscription
+        ));
       }
     } catch (std::runtime_error & _e) {
-      std::cerr << "Failed to create a bridge for topic [" << topic_name << "] " <<
-        "with ROS2 type [" << ros_type_name << "] and " <<
-        "Ignition Transport type [" << ign_type_name << "]" << std::endl;
+      RCLCPP_WARN(
+        ros_node->get_logger(),
+        "Failed to create a bridge for topic [%s] with ROS2 type [%s] "
+        "and Ignition Transport type[%s]",
+        topic_name.c_str(),
+        ros_type_name.c_str(),
+        ign_type_name.c_str());
     }
   }
+
+  for (auto & bridge : handles) {
+    bridge->Start();
+  }
+
+  auto timer = ros_node->create_wall_timer(
+    std::chrono::milliseconds(1000),
+    [&handles]() {
+      for (auto & bridge : handles) {
+        bridge->Spin();
+      }
+    });
 
   // ROS 2 spinner
   rclcpp::spin(ros_node);
