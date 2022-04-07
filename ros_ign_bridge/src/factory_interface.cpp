@@ -1,4 +1,4 @@
-// Copyright 2021 Open Source Robotics Foundation, Inc.
+// Copyright 2022 Open Source Robotics Foundation, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,8 +17,6 @@
 namespace ros_ign_bridge
 {
 
-FactoryInterface::~FactoryInterface()
-{
-}
+FactoryInterface::~FactoryInterface() = default;
 
 }  // namespace ros_ign_bridge
