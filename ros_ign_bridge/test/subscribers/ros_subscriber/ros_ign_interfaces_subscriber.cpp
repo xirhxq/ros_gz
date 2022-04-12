@@ -16,6 +16,9 @@
 #include <gtest/gtest.h>
 
 #include <chrono>
+#include <memory>
+
+#include <ros_ign_bridge/ros_ign_bridge.hpp>
 
 #include "ros_subscriber.hpp"
 
@@ -80,6 +83,19 @@ TEST(ROSSubscriberTest, Contacts)
 
   EXPECT_TRUE(client.callbackExecuted);
 }
+
+#if HAVE_DATAFRAME
+/////////////////////////////////////////////////
+TEST(ROSSubscriberTest, Dataframe)
+{
+  MyTestClass<ros_ign_interfaces::msg::Dataframe> client("dataframe");
+  using namespace std::chrono_literals;
+  ros_ign_bridge::testing::waitUntilBoolVarAndSpin(
+    ros_subscriber::TestNode(), client.callbackExecuted, 10ms, 200);
+
+  EXPECT_TRUE(client.callbackExecuted);
+}
+#endif  // HAVE_DATAFRAME
 
 /////////////////////////////////////////////////
 TEST(ROSSubscriberTest, GuiCamera)

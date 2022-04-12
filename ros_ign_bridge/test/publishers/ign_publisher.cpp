@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
 #include <atomic>
 #include <chrono>
 #include <csignal>
@@ -21,6 +22,7 @@
 
 #include <ignition/msgs.hh>
 #include <ignition/transport/Node.hh>
+#include <ros_ign_bridge/ros_ign_bridge.hpp>
 
 #include "utils/test_utils.hpp"
 #include "utils/ign_test_msg.hpp"
@@ -234,6 +236,13 @@ int main(int /*argc*/, char **/*argv*/)
   ignition::msgs::Contacts contacts_msg;
   ros_ign_bridge::testing::createTestMsg(contacts_msg);
 
+#if HAVE_DATAFRAME
+  // ignition::msgs::Dataframe.
+  auto dataframe_pub = node.Advertise<ignition::msgs::Dataframe>("dataframe");
+  ignition::msgs::Dataframe dataframe_msg;
+  ros_ign_bridge::testing::createTestMsg(dataframe_msg);
+#endif  // HAVE_DATAFRAME
+
   // ignition::msgs::PointCloudPacked.
   auto pointcloudpacked_pub = node.Advertise<ignition::msgs::PointCloudPacked>(
     "pointcloud2");
@@ -301,6 +310,9 @@ int main(int /*argc*/, char **/*argv*/)
     entity_pub.Publish(entity_msg);
     contact_pub.Publish(contact_msg);
     contacts_pub.Publish(contacts_msg);
+#if HAVE_DATAFRAME
+    dataframe_pub.Publish(dataframe_msg);
+#endif  // HAVE_DATAFRAME
     image_pub.Publish(image_msg);
     camera_info_pub.Publish(camera_info_msg);
     fluid_pressure_pub.Publish(fluid_pressure_msg);

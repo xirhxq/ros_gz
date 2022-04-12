@@ -15,15 +15,22 @@
 #ifndef UTILS__IGN_TEST_MSG_HPP_
 #define UTILS__IGN_TEST_MSG_HPP_
 
-#include <ignition/msgs/actuators.pb.h>
-#include <ignition/msgs/axis.pb.h>
-#include <ignition/msgs/battery_state.pb.h>
-#include <ignition/msgs/boolean.pb.h>
-#include <ignition/msgs/camera_info.pb.h>
-#include <ignition/msgs/clock.pb.h>
-#include <ignition/msgs/color.pb.h>
-#include <ignition/msgs/contact.pb.h>
-#include <ignition/msgs/contacts.pb.h>
+#include <memory>
+
+#include <ros_ign_bridge/ros_ign_bridge.hpp>  // NOLINT
+
+#include <ignition/msgs/actuators.pb.h>  // NOLINT
+#include <ignition/msgs/axis.pb.h>  // NOLINT
+#include <ignition/msgs/battery_state.pb.h>  // NOLINT
+#include <ignition/msgs/boolean.pb.h>  // NOLINT
+#include <ignition/msgs/camera_info.pb.h>  // NOLINT
+#include <ignition/msgs/clock.pb.h>  // NOLINT
+#include <ignition/msgs/color.pb.h>  // NOLINT
+#include <ignition/msgs/contact.pb.h>  // NOLINT
+#include <ignition/msgs/contacts.pb.h>  // NOLINT
+#if HAVE_DATAFRAME
+#include <ignition/msgs/dataframe.pb.h>
+#endif  // HAVE_DATAFRAME
 #include <ignition/msgs/double.pb.h>
 #include <ignition/msgs/empty.pb.h>
 #include <ignition/msgs/entity.pb.h>
@@ -56,7 +63,6 @@
 #include <ignition/msgs/video_record.pb.h>
 #include <ignition/msgs/wrench.pb.h>
 
-#include <memory>
 
 namespace ros_ign_bridge
 {
@@ -225,6 +231,16 @@ void createTestMsg(ignition::msgs::Contacts & _msg);
 /// \brief Compare a message with the populated for testing.
 /// \param[in] _msg The message to compare.
 void compareTestMsg(const std::shared_ptr<ignition::msgs::Contacts> & _msg);
+
+#if HAVE_DATAFRAME
+/// \brief Create a message used for testing.
+/// \param[out] _msg The message populated.
+void createTestMsg(ignition::msgs::Dataframe & _msg);
+
+/// \brief Compare a message with the populated for testing.
+/// \param[in] _msg The message to compare.
+void compareTestMsg(const std::shared_ptr<ignition::msgs::Dataframe> & _msg);
+#endif  // HAVE_DATAFRAME
 
 /// \brief Create a message used for testing.
 /// \param[out] _msg The message populated.

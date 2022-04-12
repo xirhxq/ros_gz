@@ -67,6 +67,7 @@ def generate_test_description():
           '/entity@ros_ign_interfaces/msg/Entity@ignition.msgs.Entity',
           '/contact@ros_ign_interfaces/msg/Contact@ignition.msgs.Contact',
           '/contacts@ros_ign_interfaces/msg/Contacts@ignition.msgs.Contacts',
+          '/dataframe@ros_ign_interfaces/msg/Dataframe@ignition.msgs.Dataframe',
           '/light@ros_ign_interfaces/msg/Light@ignition.msgs.Light',
           '/gui_camera@ros_ign_interfaces/msg/GuiCamera@ignition.msgs.GUICamera',
           '/stringmsg_v@ros_ign_interfaces/msg/StringVec@ignition.msgs.StringMsg_V',

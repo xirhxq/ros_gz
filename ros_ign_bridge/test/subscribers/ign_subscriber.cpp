@@ -20,6 +20,7 @@
 #include <string>
 
 #include <ignition/transport/Node.hh>
+#include <ros_ign_bridge/ros_ign_bridge.hpp>
 
 #include "utils/test_utils.hpp"
 #include "utils/ign_test_msg.hpp"
@@ -345,6 +346,20 @@ TEST(IgnSubscriberTest, Contacts)
 
   EXPECT_TRUE(client.callbackExecuted);
 }
+
+#if HAVE_DATAFRAME
+/////////////////////////////////////////////////
+TEST(IgnSubscriberTest, Dataframe)
+{
+  MyTestClass<ignition::msgs::Dataframe> client("dataframe");
+
+  using namespace std::chrono_literals;
+  ros_ign_bridge::testing::waitUntilBoolVar(
+    client.callbackExecuted, 100ms, 200);
+
+  EXPECT_TRUE(client.callbackExecuted);
+}
+#endif  // HAVE_DATAFRAME
 
 /////////////////////////////////////////////////
 TEST(IgnSubscriberTest, Image)
