@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FACTORIES_HPP_
-#define FACTORIES_HPP_
+#ifndef GET_FACTORY_HPP_
+#define GET_FACTORY_HPP_
 
 #include <memory>
 #include <string>
@@ -37,4 +37,4 @@ get_service_factory(
 
 }  // namespace ros_ign_bridge
 
-#endif  // FACTORIES_HPP_
+#endif  // GET_FACTORY_HPP_

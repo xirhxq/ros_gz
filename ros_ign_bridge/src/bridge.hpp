@@ -18,10 +18,7 @@
 #include <memory>
 #include <string>
 
-#include <ignition/transport/Node.hh>
-#include <rclcpp/node.hpp>
-
-#include "factory_interface.hpp"
+#include "get_factory.hpp"
 
 namespace ros_ign_bridge
 {
