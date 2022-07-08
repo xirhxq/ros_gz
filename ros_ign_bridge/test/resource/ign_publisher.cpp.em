@@ -61,12 +61,12 @@ int main(int /*argc*/, char **/*argv*/)
 
 @[end for]@
 
-  // Publish messages at 1Hz.
+  // Publish messages at 100Hz.
   while (!g_terminatePub) {
 @[for m in mappings]@
     @(m.unique())_pub.Publish(@(m.unique())_msg);
 @[end for]@
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
   }
 
   return 0;
