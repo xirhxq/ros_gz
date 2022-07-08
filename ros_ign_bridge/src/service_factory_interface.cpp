@@ -12,33 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef  SERVICE_FACTORY_INTERFACE_HPP_
-#define  SERVICE_FACTORY_INTERFACE_HPP_
-
-#include <memory>
-#include <string>
-
-#include <ignition/transport/Node.hh>
-
-#include <rclcpp/service.hpp>
-#include <rclcpp/node.hpp>
+#include "service_factory_interface.hpp"
 
 namespace ros_ign_bridge
 {
 
-class ServiceFactoryInterface
-{
-public:
-  virtual
-  rclcpp::ServiceBase::SharedPtr
-  create_ros_service(
-    rclcpp::Node::SharedPtr ros_node,
-    std::shared_ptr<ignition::transport::Node> ign_node,
-    const std::string & service_name) = 0;
-
-  virtual ~ServiceFactoryInterface() = 0;
-};
+ServiceFactoryInterface::~ServiceFactoryInterface() = default;
 
 }  // namespace ros_ign_bridge
-
-#endif  // SERVICE_FACTORY_INTERFACE_HPP_

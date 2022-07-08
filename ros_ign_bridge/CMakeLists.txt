@@ -120,6 +120,7 @@ add_library(${bridge_lib}
   src/bridge_ros_to_ign.cpp
   src/bridge_ign_to_ros.cpp
   src/factory_interface.cpp
+  src/service_factory_interface.cpp
   src/service_factories/ros_ign_interfaces.cpp
   ${convert_files}
   ${generated_files}
