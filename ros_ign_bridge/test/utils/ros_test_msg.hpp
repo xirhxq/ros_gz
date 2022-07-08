@@ -53,6 +53,7 @@
 #include <ros_ign_interfaces/msg/string_vec.hpp>
 #include <ros_ign_interfaces/msg/track_visual.hpp>
 #include <ros_ign_interfaces/msg/video_record.hpp>
+#include <ros_ign_interfaces/msg/world_control.hpp>
 #include <rosgraph_msgs/msg/clock.hpp>
 #include <sensor_msgs/msg/battery_state.hpp>
 #include <sensor_msgs/msg/camera_info.hpp>
@@ -387,6 +388,14 @@ void createTestMsg(ros_ign_interfaces::msg::VideoRecord & _msg);
 /// \brief Compare a message with the populated for testing.
 /// \param[in] _msg The message to compare.
 void compareTestMsg(const std::shared_ptr<ros_ign_interfaces::msg::VideoRecord> & _msg);
+
+/// \brief Create a message used for testing.
+/// \param[out] _msg The message populated.
+void createTestMsg(ros_ign_interfaces::msg::WorldControl & _msg);
+
+/// \brief Compare a message with the populated for testing.
+/// \param[in] _msg The message to compare.
+void compareTestMsg(const std::shared_ptr<ros_ign_interfaces::msg::WorldControl> & _msg);
 
 /// sensor_msgs
 

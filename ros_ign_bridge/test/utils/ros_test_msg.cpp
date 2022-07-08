@@ -565,6 +565,35 @@ void compareTestMsg(const std::shared_ptr<ros_ign_interfaces::msg::VideoRecord> 
   EXPECT_EQ(expected_msg.save_filename, _msg->save_filename);
 }
 
+void createTestMsg(ros_ign_interfaces::msg::WorldControl & _msg)
+{
+  _msg.pause = true;
+  _msg.step = true;
+  _msg.reset.all = true;
+  _msg.reset.model_only = false;
+  _msg.reset.time_only = false;
+  _msg.multi_step = 1;
+  _msg.seed = 555;
+  _msg.run_to_sim_time.sec = 15;
+  _msg.run_to_sim_time.nanosec = 25;
+}
+
+void compareTestMsg(const std::shared_ptr<ros_ign_interfaces::msg::WorldControl> & _msg)
+{
+  ros_ign_interfaces::msg::WorldControl expected_msg;
+  createTestMsg(expected_msg);
+
+  EXPECT_EQ(expected_msg.pause, _msg->pause);
+  EXPECT_EQ(expected_msg.step, _msg->step);
+  EXPECT_EQ(expected_msg.reset.all, _msg->reset.all);
+  EXPECT_EQ(expected_msg.reset.model_only, _msg->reset.model_only);
+  EXPECT_EQ(expected_msg.reset.time_only, _msg->reset.time_only);
+  EXPECT_EQ(expected_msg.multi_step, _msg->multi_step);
+  EXPECT_EQ(expected_msg.seed, _msg->seed);
+  EXPECT_EQ(expected_msg.run_to_sim_time.sec, _msg->run_to_sim_time.sec);
+  EXPECT_EQ(expected_msg.run_to_sim_time.nanosec, _msg->run_to_sim_time.nanosec);
+}
+
 void createTestMsg(ros_ign_interfaces::msg::JointWrench & _msg)
 {
   createTestMsg(_msg.header);

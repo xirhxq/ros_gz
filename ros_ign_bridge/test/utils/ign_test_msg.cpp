@@ -1266,5 +1266,34 @@ void compareTestMsg(const std::shared_ptr<ignition::msgs::VideoRecord> & _msg)
   EXPECT_EQ(expected_msg.save_filename(), _msg->save_filename());
 }
 
+void createTestMsg(ignition::msgs::WorldControl & _msg)
+{
+  _msg.set_pause(true);
+  _msg.set_step(true);
+  _msg.mutable_reset()->set_all(true);
+  _msg.mutable_reset()->set_model_only(false);
+  _msg.mutable_reset()->set_time_only(false);
+  _msg.set_multi_step(1);
+  _msg.set_seed(555);
+  _msg.mutable_run_to_sim_time()->set_sec(15);
+  _msg.mutable_run_to_sim_time()->set_nsec(25);
+}
+
+void compareTestMsg(const std::shared_ptr<ignition::msgs::WorldControl> & _msg)
+{
+  ignition::msgs::WorldControl expected_msg;
+  createTestMsg(expected_msg);
+
+  EXPECT_EQ(expected_msg.pause(), _msg->pause());
+  EXPECT_EQ(expected_msg.step(), _msg->step());
+  EXPECT_EQ(expected_msg.reset().all(), _msg->reset().all());
+  EXPECT_EQ(expected_msg.reset().model_only(), _msg->reset().model_only());
+  EXPECT_EQ(expected_msg.reset().time_only(), _msg->reset().time_only());
+  EXPECT_EQ(expected_msg.multi_step(), _msg->multi_step());
+  EXPECT_EQ(expected_msg.seed(), _msg->seed());
+  EXPECT_EQ(expected_msg.run_to_sim_time().sec(), _msg->run_to_sim_time().sec());
+  EXPECT_EQ(expected_msg.run_to_sim_time().nsec(), _msg->run_to_sim_time().nsec());
+}
+
 }  // namespace testing
 }  // namespace ros_ign_bridge
