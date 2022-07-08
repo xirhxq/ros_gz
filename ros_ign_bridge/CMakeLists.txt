@@ -36,9 +36,9 @@ elseif("$ENV{IGNITION_VERSION}" STREQUAL "garden")
   find_package(gz-msgs9 REQUIRED)
   set(IGN_MSGS_VER ${gz-msgs9_VERSION_MAJOR})
 
-  set(GZ_MSGS_VERSION_MAJOR ${ignition-msgs9_VERSION_MAJOR})
-  set(GZ_MSGS_VERSION_MINOR ${ignition-msgs9_VERSION_MINOR})
-  set(GZ_MSGS_VERSION_PATCH ${ignition-msgs9_VERSION_PATCH})
+  set(GZ_MSGS_VERSION_MAJOR ${gz-msgs9_VERSION_MAJOR})
+  set(GZ_MSGS_VERSION_MINOR ${gz-msgs9_VERSION_MINOR})
+  set(GZ_MSGS_VERSION_PATCH ${gz-msgs9_VERSION_PATCH})
 
   set(GZ_TARGET_PREFIX gz)
 
