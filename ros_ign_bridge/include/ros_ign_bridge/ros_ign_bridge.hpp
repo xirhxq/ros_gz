@@ -19,9 +19,8 @@
 
 // Dataframe is available from versions 8.4.0 (fortress) forward
 // This can be removed when the minimum supported version passes 8.4.0
-#if (IGNITION_MSGS_MAJOR_VERSION >= 8 && \
-  IGNITION_MSGS_MINOR_VERSION >= 4 && \
-  IGNITION_MSGS_PATCH_VERSION >= 0)
+#if (IGNITION_MSGS_MAJOR_VERSION == 8 && IGNITION_MSGS_MINOR_VERSION >= 4) || \
+  (IGNITION_MSGS_MAJOR_VERSION >= 9)
 #define HAVE_DATAFRAME true
 #endif
 

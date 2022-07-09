@@ -17,7 +17,7 @@
 
 #include <memory>
 
-#include <ros_ign_bridge/ros_ign_bridge.hpp>  // NOLINT
+#include <ros_ign_bridge/ros_ign_bridge.hpp>
 
 #include <ignition/msgs/actuators.pb.h>  // NOLINT
 #include <ignition/msgs/axis.pb.h>  // NOLINT

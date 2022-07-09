@@ -16,7 +16,7 @@ find_package(rclcpp REQUIRED)
 # Edifice
 if("$ENV{IGNITION_VERSION}" STREQUAL "edifice")
   find_package(ignition-transport10 REQUIRED)
-  set(IGN_TRANSPORT_VER ${ignition-transport10_VERSION_MAJOR})
+  set(GZ_TRANSPORT_VER ${ignition-transport10_VERSION_MAJOR})
 
   find_package(ignition-msgs7 REQUIRED)
   set(GZ_MSGS_VER ${ignition-msgs7_VERSION_MAJOR})
@@ -31,10 +31,10 @@ if("$ENV{IGNITION_VERSION}" STREQUAL "edifice")
 # Garden
 elseif("$ENV{IGNITION_VERSION}" STREQUAL "garden")
   find_package(gz-transport12 REQUIRED)
-  set(IGN_TRANSPORT_VER ${gz-transport12_VERSION_MAJOR})
+  set(GZ_TRANSPORT_VER ${gz-transport12_VERSION_MAJOR})
 
   find_package(gz-msgs9 REQUIRED)
-  set(IGN_MSGS_VER ${gz-msgs9_VERSION_MAJOR})
+  set(GZ_MSGS_VER ${gz-msgs9_VERSION_MAJOR})
 
   set(GZ_MSGS_VERSION_MAJOR ${gz-msgs9_VERSION_MAJOR})
   set(GZ_MSGS_VERSION_MINOR ${gz-msgs9_VERSION_MINOR})
@@ -46,10 +46,10 @@ elseif("$ENV{IGNITION_VERSION}" STREQUAL "garden")
 # Default to Fortress
 else()
   find_package(ignition-transport11 REQUIRED)
-  set(IGN_TRANSPORT_VER ${ignition-transport11_VERSION_MAJOR})
+  set(GZ_TRANSPORT_VER ${ignition-transport11_VERSION_MAJOR})
 
   find_package(ignition-msgs8 REQUIRED)
-  set(IGN_MSGS_VER ${ignition-msgs8_VERSION_MAJOR})
+  set(GZ_MSGS_VER ${ignition-msgs8_VERSION_MAJOR})
 
   set(GZ_MSGS_VERSION_MAJOR ${ignition-msgs8_VERSION_MAJOR})
   set(GZ_MSGS_VERSION_MINOR ${ignition-msgs8_VERSION_MINOR})
@@ -127,8 +127,8 @@ add_library(${bridge_lib}
 )
 
 target_link_libraries(${bridge_lib}
-    ${GZ_TARGET_PREFIX}-msgs${IGN_MSGS_VER}::core
-    ${GZ_TARGET_PREFIX}-transport${IGN_TRANSPORT_VER}::core
+    ${GZ_TARGET_PREFIX}-msgs${GZ_MSGS_VER}::core
+    ${GZ_TARGET_PREFIX}-transport${GZ_TRANSPORT_VER}::core
 )
 
 ament_target_dependencies(${bridge_lib}
@@ -194,8 +194,8 @@ if(BUILD_TESTING)
   )
   target_link_libraries(test_utils
     ${GTEST_LIBRARIES}
-    ${GZ_TARGET_PREFIX}-msgs${IGN_MSGS_VER}::core
-    ${GZ_TARGET_PREFIX}-transport${IGN_TRANSPORT_VER}::core
+    ${GZ_TARGET_PREFIX}-msgs${GZ_MSGS_VER}::core
+    ${GZ_TARGET_PREFIX}-transport${GZ_TRANSPORT_VER}::core
   )
   ament_target_dependencies(test_utils
     rclcpp

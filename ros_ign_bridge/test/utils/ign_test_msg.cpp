@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "ign_test_msg.hpp"
-
 #include <gtest/gtest.h>
 
 #include <memory>
 #include <string>
+
+#include <ros_ign_bridge/ros_ign_bridge.hpp>
+#include "ign_test_msg.hpp"
 
 namespace ros_ign_bridge
 {
