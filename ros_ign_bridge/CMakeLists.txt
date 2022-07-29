@@ -149,6 +149,7 @@ set(bridge_executables
   parameter_bridge
   static_bridge
   bridge_types
+  my_bridge
 )
 
 foreach(bridge ${bridge_executables})
