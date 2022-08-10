@@ -46,7 +46,7 @@ int main(int argc, char * argv[]) {
     config.is_lazy = lazy_subscription;
 
 
-    for (int i = 1; i <= 10; i++){
+    for (int i = 1; i <= 14; i++){
         std::string topic_name = "model/suav_" + std::to_string(i) + subtopic_name;
 
         config.ros_topic_name = topic_name;
